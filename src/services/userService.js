@@ -5,6 +5,11 @@ const findUserByEmail = async (email) => {
   return user;
 };
 
+const findUserById = async (id) => {
+  const user = await User.findByPk(id);
+  return user;
+};
+
 const makeUserLogin = async (user) => {
   const { password: _, ...userWithoutPassword } = user.dataValues;
   
@@ -33,9 +38,20 @@ const getAllUsers = async () => {
   });
 };
 
+const getUserById = async (id) => {
+  const user = await findUserById(id);
+  if (!user) {
+    return user;
+  }
+  const { password: _, ...userWithoutPassword } = user.dataValues;
+  return userWithoutPassword;
+};
+
 module.exports = {
   findUserByEmail,
   makeUserLogin,
   createUser,
   getAllUsers,
+  getUserById,
+  findUserById,
 };
