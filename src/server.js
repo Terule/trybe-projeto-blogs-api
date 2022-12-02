@@ -10,12 +10,14 @@ const {
 
 const {
   loginValidation,
-  nameValidation,
+  userNameValidation,
   emailValidation,
   passwordValidation,
 } = require('./middlewares/userValidation');
 
 const { tokenValidation } = require('./middlewares/tokenValidation');
+const { categoryNameValidation } = require('./middlewares/postValidation');
+const { createCategory, getAllCategories } = require('./controllers/postController');
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -28,12 +30,15 @@ app.get('/', (_request, response) => {
 app.post('/login', loginValidation, makeUserLogin);
 
 app.post('/user',
-  nameValidation,
+  userNameValidation,
   emailValidation,
   passwordValidation,
   createUser);
 
 app.get('/user', tokenValidation, getAllUsers);
 app.get('/user/:id', tokenValidation, getUserById);
+
+app.get('/categories', tokenValidation, getAllCategories);
+app.post('/categories', tokenValidation, categoryNameValidation, createCategory);
 
 app.listen(port, () => console.log('ouvindo porta', port));

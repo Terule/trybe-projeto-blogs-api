@@ -22,7 +22,7 @@ const loginValidation = async (req, res, next) => {
   next();
 };
 
-const nameValidation = (req, res, next) => {
+const userNameValidation = (req, res, next) => {
   const { displayName } = req.body;
   if (!displayName || displayName.length < 8) {
     return res.status(400)
@@ -51,7 +51,7 @@ const passwordValidation = (req, res, next) => {
 
 module.exports = {
   loginValidation,
-  nameValidation,
+  userNameValidation,
   emailValidation,
   passwordValidation,
 };
