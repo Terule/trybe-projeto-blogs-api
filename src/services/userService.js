@@ -25,8 +25,17 @@ const createUser = async ({ displayName, email, password, image }) => {
   return { data: newUserWithoutPassword, created };
 };
 
+const getAllUsers = async () => {
+  const all = await User.findAll();
+  return all.map((user) => {
+    const { password: _, ...userWithoutPassword } = user.dataValues;
+    return userWithoutPassword;
+  });
+};
+
 module.exports = {
   findUserByEmail,
   makeUserLogin,
   createUser,
+  getAllUsers,
 };
