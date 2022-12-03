@@ -11,7 +11,15 @@ const getAllCategories = async (_req, res) => {
   res.status(200).json(categories);
 };
 
+const createPost = async (req, res) => {
+  const { body: { title, content, categoryIds: categories }, user: { id: userId } } = req;
+  const post = await postService.createPost({ title, content, categories, userId });
+
+  res.status(201).json(post);
+};
+
 module.exports = {
   createCategory,
   getAllCategories,
+  createPost,
 };

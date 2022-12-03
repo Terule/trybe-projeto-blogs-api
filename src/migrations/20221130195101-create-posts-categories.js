@@ -9,7 +9,8 @@ module.exports = {
           model: 'blog_posts',
           key: 'id',
         },
-        primaryKey: true
+        onDelete: 'CASCADE',
+        primaryKey: true,
       },
       category_id: {
         allowNull: false,
@@ -18,6 +19,7 @@ module.exports = {
           model: 'categories',
           key: 'id',
         },
+        onDelete: 'CASCADE',
         primaryKey: true
       }
     });
