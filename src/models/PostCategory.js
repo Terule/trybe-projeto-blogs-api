@@ -1,9 +1,10 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  const postsCategories = sequelize.define('PostCategory', 
-  {}, 
-  {
+  const postsCategories = sequelize.define('PostCategory', {
+    postId: DataTypes.INTEGER,
+    categoryId: DataTypes.INTEGER
+  },   {
     sequelize,
     timestamps: false,
     tableName: 'posts_categories',
@@ -21,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     Category.belongsToMany(BlogPost, {
       as: 'posts',
       through: postsCategories,
-      foreignKey: 'postId',
-      otherKey: 'categoryId'
+      foreignKey: 'categoryId',
+      otherKey: 'postId'
     })
   };
 

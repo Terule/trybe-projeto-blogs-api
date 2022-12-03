@@ -7,7 +7,6 @@ const createCategory = async (name) => {
 
 const getAllCategories = async () => {
   const categories = await Category.findAll();
-  console.log(categories);
   return categories.map((category) => category.dataValues);
 };
 
