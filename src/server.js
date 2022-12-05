@@ -25,6 +25,7 @@ const {
   getAllCategories,
   createPost,
   getAllPosts,
+  getPostById,
 } = require('./controllers/postController');
 
 // não remova a variável `API_PORT` ou o `listen`
@@ -55,5 +56,6 @@ categoryExistsValidation,
 createPost);
 
 app.get('/post', tokenValidation, getAllPosts);
+app.get('/post/:id', tokenValidation, getPostById);
 
 app.listen(port, () => console.log('ouvindo porta', port));

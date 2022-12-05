@@ -36,9 +36,20 @@ const getAllPosts = async () => {
   return posts.map((post) => post.dataValues);
 };
 
+const getPostById = async (id) => {
+  const post = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: ['id', 'displayName', 'email', 'image'] },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return post;
+};
+
 module.exports = {
   createCategory,
   getAllCategories,
   createPost,
   getAllPosts,
+  getPostById,
 };
