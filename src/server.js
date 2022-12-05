@@ -26,7 +26,9 @@ const {
   createPost,
   getAllPosts,
   getPostById,
+  updatePost,
 } = require('./controllers/postController');
+const { updateValidation } = require('./middlewares/updateValidation');
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -57,5 +59,6 @@ createPost);
 
 app.get('/post', tokenValidation, getAllPosts);
 app.get('/post/:id', tokenValidation, getPostById);
+app.put('/post/:id', tokenValidation, updateValidation, updatePost);
 
 app.listen(port, () => console.log('ouvindo porta', port));
