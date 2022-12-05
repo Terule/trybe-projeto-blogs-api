@@ -6,6 +6,7 @@ const {
   createUser, 
   getAllUsers,
   getUserById,
+  deleteUser,
 } = require('./controllers/userController');
 
 const {
@@ -27,8 +28,10 @@ const {
   getAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 } = require('./controllers/postController');
 const { updateValidation } = require('./middlewares/updateValidation');
+const { deletePostValidation } = require('./middlewares/deletePostValidation');
 
 // não remova a variável `API_PORT` ou o `listen`
 const port = process.env.API_PORT || 3000;
@@ -45,9 +48,9 @@ app.post('/user',
   emailValidation,
   passwordValidation,
   createUser);
-
 app.get('/user', tokenValidation, getAllUsers);
 app.get('/user/:id', tokenValidation, getUserById);
+app.delete('/user/me', tokenValidation, deleteUser);
 
 app.get('/categories', tokenValidation, getAllCategories);
 app.post('/categories', tokenValidation, categoryNameValidation, createCategory);
@@ -56,9 +59,9 @@ app.post('/post',
 tokenValidation,
 categoryExistsValidation,
 createPost);
-
 app.get('/post', tokenValidation, getAllPosts);
 app.get('/post/:id', tokenValidation, getPostById);
 app.put('/post/:id', tokenValidation, updateValidation, updatePost);
+app.delete('/post/:id', tokenValidation, deletePostValidation, deletePost);
 
 app.listen(port, () => console.log('ouvindo porta', port));
