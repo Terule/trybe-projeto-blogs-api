@@ -29,6 +29,7 @@ const {
   getPostById,
   updatePost,
   deletePost,
+  searchPosts,
 } = require('./controllers/postController');
 const { updateValidation } = require('./middlewares/updateValidation');
 const { deletePostValidation } = require('./middlewares/deletePostValidation');
@@ -55,6 +56,7 @@ app.delete('/user/me', tokenValidation, deleteUser);
 app.get('/categories', tokenValidation, getAllCategories);
 app.post('/categories', tokenValidation, categoryNameValidation, createCategory);
 
+app.get('/post/search', tokenValidation, searchPosts);
 app.post('/post',
 tokenValidation,
 categoryExistsValidation,

@@ -1,4 +1,12 @@
+const { Op } = require('sequelize');
 const { Category, BlogPost, sequelize, PostCategory, User } = require('../models');
+
+const postOptions = {
+  include: [
+    { model: User, as: 'user', attributes: ['id', 'displayName', 'email', 'image'] },
+    { model: Category, as: 'categories', through: { attributes: [] } },
+  ],
+};
 
 const createCategory = async (name) => {
   const category = await Category.create({ name });
@@ -27,22 +35,12 @@ const createPost = async ({
 };
 
 const getAllPosts = async () => {
-  const posts = await BlogPost.findAll({
-    include: [
-      { model: User, as: 'user', attributes: ['id', 'displayName', 'email', 'image'] },
-      { model: Category, as: 'categories', through: { attributes: [] } },
-    ],
-  });
+  const posts = await BlogPost.findAll(postOptions);
   return posts.map((post) => post.dataValues);
 };
 
 const getPostById = async (id) => {
-  const post = await BlogPost.findByPk(id, {
-    include: [
-      { model: User, as: 'user', attributes: ['id', 'displayName', 'email', 'image'] },
-      { model: Category, as: 'categories', through: { attributes: [] } },
-    ],
-  });
+  const post = await BlogPost.findByPk(id, postOptions);
   return post;
 };
 
@@ -63,6 +61,23 @@ const deletePost = async (id) => {
   await BlogPost.destroy({ where: { id } });
 };
 
+const searchPosts = async (query) => {
+  if (!query) {
+    const posts = await BlogPost.findAll(postOptions);
+    return posts;
+  }
+  const posts = await BlogPost.findAll({
+    include: postOptions.include,
+    where: {
+      [Op.or]: {
+        title: { [Op.like]: query },
+        content: { [Op.like]: query },
+      },
+    },
+  });
+  return posts;
+};
+
 module.exports = {
   createCategory,
   getAllCategories,
@@ -71,4 +86,5 @@ module.exports = {
   getPostById,
   updatePost,
   deletePost,
+  searchPosts,
 };

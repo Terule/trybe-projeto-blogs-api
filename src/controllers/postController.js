@@ -44,6 +44,13 @@ const deletePost = async (req, res) => {
   res.status(204).end();
 };
 
+const searchPosts = async (req, res) => {
+  const { q } = req.query;
+  const posts = await postService.searchPosts(q || '');
+
+  res.status(200).json(posts);
+};
+
 module.exports = {
   createCategory,
   getAllCategories,
@@ -52,4 +59,5 @@ module.exports = {
   getPostById,
   updatePost,
   deletePost,
+  searchPosts,
 };
